@@ -1,0 +1,54 @@
+{
+  "src/components/*.js": {
+    "type": "component",
+      "alternate": "src/components/{dirname}/__tests__/{basename}.js",
+      "template": [
+        "import React, {open} Component {close} from 'react';",
+      "import {open}",
+      "  View,",
+      "  StyleSheet,",
+      "{close} from 'react-native';",
+      "",
+      "class {basename} extends Component {open}",
+      "  render() {open}",
+      "    return <View>",
+      "    </View>",
+      "  {close}",
+      "{close}",
+      "",
+      "{basename}.propTypes = {open}",
+      "{close};",
+      "",
+      "const styles = StyleSheet.create({open}",
+      "{close});",
+      "",
+      "export default {basename};"
+        ]
+  },
+  "src/**/__tests__/*.js": {
+    "type": "test",
+    "alternate": "src/{dirname}/{basename}.js",
+    "template": [
+      "import 'react-native';",
+      "import React from 'react';",
+      "import renderer from 'react-test-renderer';",
+      "import {basename} from '../{basename}';",
+      "",
+      "it('renders correctly', () => {open}",
+      "  renderer.create(",
+      "    <{basename} />",
+      "  );",
+      "{close});"
+    ]
+  },
+  "src/state/*.js": {
+    "type": "state",
+    "alternate": "src/state/{dirname}/__tests__/{basename}.js",
+  },
+  "src/services/*.js": {
+    "type": "service"
+  },
+  "src/utils/*.js": {
+    "type": "util"
+  }
+}
