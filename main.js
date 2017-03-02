@@ -5,7 +5,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-StatusBar.setBarStyle('dark-content');
+StatusBar.setBarStyle('light-content');
 
 const App = StackNavigator({
   Home: { screen: Home },
