@@ -21,6 +21,7 @@ class BorderedList extends Component {
       <ListView style={styles.list}
         dataSource={this.state.dataSource}
         renderRow={this._renderItem}
+        renderFooter={this.props.renderFooter}
       />
     </View>
   }
@@ -32,12 +33,13 @@ class BorderedList extends Component {
 
 BorderedList.defaultProps = {
   items: [],
-  renderItem: () => {}
+  renderItem: () => {},
 }
 
 BorderedList.propTypes = {
   items: React.PropTypes.array,
   renderItem: React.PropTypes.func,
+  renderFooter: React.PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2 / PixelRatio.get(),
     borderColor: colors.borderColor,
-    minHeight: 100,
+    minHeight: 40,
   }
 });
 

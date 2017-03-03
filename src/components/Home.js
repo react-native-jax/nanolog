@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   Image,
+  TextInput,
 } from 'react-native';
 import colors from '../utils/colors';
 import BorderedList from './BorderedList';
@@ -25,18 +26,31 @@ class Home extends Component {
 
   render() {
     return <View style={styles.container}>
-      <BorderedList />
+      <BorderedList
+        renderFooter={this._renderFooter}
+      />
     </View>
+  }
+
+  _renderFooter = () => {
+    return <TextInput
+      style={styles.input}
+      placeholder="add a nanolog ..." />
   }
 }
 
 Home.propTypes = {
 };
 
+const rowHeight = 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.defaultBg,
+  },
+  input: {
+    padding: 10,
+    height: rowHeight,
   }
 });
 
