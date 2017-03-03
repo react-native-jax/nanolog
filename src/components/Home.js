@@ -40,8 +40,18 @@ class Home extends Component {
 
   _renderFooter = () => {
     return <TextInput
+      ref={textInput => this._textInput = textInput}
       style={styles.input}
+      onEndEditing={this._onEndEditing}
       placeholder="add a nanolog ..." />
+  }
+
+  _onEndEditing = (event) => {
+    const { text } = event.nativeEvent;
+    this.setState({
+      items: [...this.state.items, text]
+    });
+    this._textInput.clear();
   }
 
   _renderItem = (item) => {

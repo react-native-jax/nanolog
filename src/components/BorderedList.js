@@ -16,6 +16,14 @@ class BorderedList extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.items !== this.props.items) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.items)
+      });
+    }
+  }
+
   render() {
     return <View style={styles.bottomBorder}>
       <ListView style={styles.list}
