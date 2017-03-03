@@ -22,12 +22,19 @@ class BorderedList extends Component {
         dataSource={this.state.dataSource}
         renderRow={this._renderItem}
         renderFooter={this.props.renderFooter}
+        renderSeparator={this._renderSeparator}
       />
     </View>
   }
 
   _renderItem = (row, sectionId, rowId) => {
     return this.props.renderItem(row, rowId);
+  }
+
+  _renderSeparator = (sectionID, rowID) => {
+    return <View
+      key={`${sectionID}-${rowID}`}
+      style={styles.separator} />
   }
 }
 
@@ -40,12 +47,14 @@ BorderedList.propTypes = {
   items: React.PropTypes.array,
   renderItem: React.PropTypes.func,
   renderFooter: React.PropTypes.func,
+  renderSeparator: React.PropTypes.func,
 };
 
+const borderWidth = 2 / PixelRatio.get();
 const styles = StyleSheet.create({
   bottomBorder: {
     backgroundColor: colors.borderColor,
-    borderBottomWidth: 6 / PixelRatio.get(),
+    borderBottomWidth: 3 * borderWidth,
     borderRadius: 10,
     borderColor: colors.borderColor,
     overflow: 'hidden',
@@ -54,9 +63,13 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: 'white',
     borderRadius: 10,
-    borderWidth: 2 / PixelRatio.get(),
+    borderWidth: borderWidth,
     borderColor: colors.borderColor,
     minHeight: 40,
+  },
+  separator: {
+    backgroundColor: colors.borderColor,
+    height: borderWidth,
   }
 });
 
