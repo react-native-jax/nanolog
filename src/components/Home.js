@@ -24,10 +24,16 @@ class Home extends Component {
     },
   };
 
+  state = {
+    items: ['Books I read', 'Cups of water']
+  }
+
   render() {
     return <View style={styles.container}>
       <BorderedList
+        items={this.state.items}
         renderFooter={this._renderFooter}
+        renderItem={this._renderItem}
       />
     </View>
   }
@@ -36,6 +42,12 @@ class Home extends Component {
     return <TextInput
       style={styles.input}
       placeholder="add a nanolog ..." />
+  }
+
+  _renderItem = (item) => {
+    return <View style={styles.itemContainer}>
+      <Text style={styles.item}>{item}</Text>
+    </View>
   }
 }
 
@@ -51,6 +63,15 @@ const styles = StyleSheet.create({
   input: {
     padding: 10,
     height: rowHeight,
+  },
+  itemContainer: {
+    height: rowHeight,
+    justifyContent: 'center',
+  },
+  item: {
+    fontSize: 16,
+    fontWeight: '600',
+    padding: 10,
   }
 });
 
