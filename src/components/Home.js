@@ -3,25 +3,16 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import colors from '../utils/colors';
+import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-
-const navTitle = (title) => <View style={{flexDirection: 'row', alignItems: 'center'}}>
-  <Image style={{width: 30, height: 30, resizeMode: 'contain'}} source={require('../assets/logo.png')} />
-  <Text style={{fontWeight: '600', color: 'white', fontSize: 16}}>{title}</Text>
-</View>
 
 class Home extends Component {
   static navigationOptions = {
-    header: {
-      title: navTitle('your nanologs'),
-      style: {
-        backgroundColor: colors.navBarBg
-      },
-    },
+    header: navHeader('your nanologs'),
   };
 
   state = {
@@ -55,13 +46,20 @@ class Home extends Component {
   }
 
   _renderItem = (item) => {
-    return <View style={styles.itemContainer}>
+    return <TouchableOpacity
+      onPress={() => this._onItemPress(item)}
+      style={styles.itemContainer}>
       <Text style={styles.item}>{item}</Text>
-    </View>
+    </TouchableOpacity>
+  }
+
+  _onItemPress = (item) => {
+    this.props.navigation.navigate('NanologShow', {item});
   }
 }
 
 Home.propTypes = {
+  navigation: React.PropTypes.object,
 };
 
 const rowHeight = 50;
