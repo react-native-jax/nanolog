@@ -6,6 +6,7 @@ import {
   Image,
 } from 'react-native';
 import colors from '../utils/colors';
+import BorderedList from './BorderedList';
 
 const navTitle = (title) => <View style={{flexDirection: 'row', alignItems: 'center'}}>
   <Image style={{width: 30, height: 30, resizeMode: 'contain'}} source={require('../assets/logo.png')} />
@@ -24,6 +25,7 @@ class Home extends Component {
 
   render() {
     return <View style={styles.container}>
+      <BorderedList />
     </View>
   }
 }
