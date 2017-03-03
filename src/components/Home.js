@@ -33,11 +33,12 @@ class Home extends Component {
     return <TextInput
       ref={textInput => this._textInput = textInput}
       style={styles.input}
-      onEndEditing={this._onEndEditing}
+      onSubmitEditing={this._onSubmit}
+      underlineColorAndroid="transparent"
       placeholder="add a nanolog ..." />
   }
 
-  _onEndEditing = (event) => {
+  _onSubmit = (event) => {
     const { text } = event.nativeEvent;
     this.setState({
       items: [...this.state.items, text]
