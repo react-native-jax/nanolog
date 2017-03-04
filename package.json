@@ -10,6 +10,7 @@
     "exponent": "^14.0.0",
     "react": "~15.4.0",
     "react-native": "https://github.com/exponent/react-native/archive/sdk-14.0.0.tar.gz",
+    "react-native-keyboard-aware-scroll-view": "^0.2.7",
     "react-navigation": "^1.0.0-beta.6"
   }
 }

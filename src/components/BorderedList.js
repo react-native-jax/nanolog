@@ -6,6 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import colors from '../utils/colors';
+import { KeyboardAwareListView } from 'react-native-keyboard-aware-scroll-view'
 
 class BorderedList extends Component {
   constructor(props) {
@@ -25,18 +26,28 @@ class BorderedList extends Component {
   }
 
   render() {
-    return <View style={styles.bottomBorder}>
-      <ListView style={styles.list}
-        dataSource={this.state.dataSource}
-        renderRow={this._renderItem}
-        renderFooter={this.props.renderFooter}
-        renderSeparator={this._renderSeparator}
-      />
+    return <KeyboardAwareListView
+      style={styles.list}
+      automaticallyAdjustContentInsets={false}
+      keyboardShouldPersistTaps={true}
+      dataSource={this.state.dataSource}
+      alwaysBounceVertical={false}
+      renderRow={this._renderItem}
+      renderFooter={this._renderFooter}
+      renderSeparator={this._renderSeparator}
+    />
+  }
+
+  _renderFooter = () => {
+    return <View style={styles.footerContainer}>
+      {this.props.renderFooter()}
     </View>
   }
 
   _renderItem = (row, sectionId, rowId) => {
-    return this.props.renderItem(row, rowId);
+    return <View style={[styles.itemContainer, rowId == 0 && styles.firstItem]}>
+      {this.props.renderItem(row, rowId)}
+    </View>
   }
 
   _renderSeparator = (sectionID, rowID) => {
@@ -55,30 +66,42 @@ BorderedList.propTypes = {
   items: React.PropTypes.array,
   renderItem: React.PropTypes.func,
   renderFooter: React.PropTypes.func,
-  renderSeparator: React.PropTypes.func,
 };
 
 const borderWidth = 2 / PixelRatio.get();
 const styles = StyleSheet.create({
-  bottomBorder: {
-    backgroundColor: colors.borderColor,
+  footerContainer: {
+    backgroundColor: 'white',
+    paddingHorizontal: 5,
+    borderLeftWidth: borderWidth,
+    borderRightWidth: borderWidth,
     borderBottomWidth: 3 * borderWidth,
-    borderRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderColor: colors.borderColor,
-    overflow: 'hidden',
-    margin: 10,
+  },
+  itemContainer: {
+    paddingHorizontal: 5,
+    backgroundColor: 'white',
+    borderColor: colors.borderColor,
+    borderLeftWidth: borderWidth,
+    borderRightWidth: borderWidth,
+  },
+  firstItem: {
+    borderColor: colors.borderColor,
+    borderTopWidth: borderWidth,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   list: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    borderWidth: borderWidth,
-    borderColor: colors.borderColor,
-    minHeight: 40,
+    flex: 1,
+    backgroundColor: 'transparent',
+    margin: 10,
   },
   separator: {
     backgroundColor: colors.borderColor,
     height: borderWidth,
-  }
+  },
 });
 
 export default BorderedList;
