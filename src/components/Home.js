@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
@@ -21,6 +22,7 @@ class Home extends Component {
 
   render() {
     return <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <BorderedList
         items={this.state.items}
         renderFooter={this._renderFooter}
