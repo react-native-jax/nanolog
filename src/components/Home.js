@@ -52,7 +52,7 @@ class Home extends Component {
     return <TouchableOpacity
       onPress={() => this._onItemPress(item)}
       style={styles.itemContainer}>
-      <Text style={styles.item}>{item}</Text>
+      <Text numberOfLines={1} style={styles.item}>{item}</Text>
     </TouchableOpacity>
   }
 
