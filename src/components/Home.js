@@ -10,6 +10,7 @@ import {
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
+import { createLog, getLogList }  from '../utils/logHelper';
 
 class Home extends Component {
   static navigationOptions = {
@@ -17,7 +18,16 @@ class Home extends Component {
   };
 
   state = {
-    items: ['Books I read', 'Cups of water']
+    items: []
+  }
+
+  componentWillMount() {
+    this._loadData();
+  }
+
+  async _loadData() {
+    const items = await getLogList();
+    this.setState({items: items.map(i => i.name)});
   }
 
   render() {
@@ -40,8 +50,9 @@ class Home extends Component {
       placeholder="add a nanolog ..." />
   }
 
-  _onSubmit = (event) => {
+  _onSubmit = async (event) => {
     const { text } = event.nativeEvent;
+    await createLog(text);
     this.setState({
       items: [...this.state.items, text]
     });
