@@ -28,7 +28,7 @@ class BorderedList extends Component {
 
   render() {
     return <KeyboardAwareListView
-      style={styles.list}
+      contentContainerStyle={styles.list}
       enableEmptySections={true}
       automaticallyAdjustContentInsets={false}
       dataSource={this.state.dataSource}
@@ -103,8 +103,6 @@ const styles = StyleSheet.create({
     }),
   },
   list: {
-    flex: 1,
-    backgroundColor: 'transparent',
     padding: 10,
   },
   separator: {
