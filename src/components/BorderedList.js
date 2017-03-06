@@ -28,8 +28,8 @@ class BorderedList extends Component {
   render() {
     return <KeyboardAwareListView
       style={styles.list}
+      enableEmptySections={true}
       automaticallyAdjustContentInsets={false}
-      keyboardShouldPersistTaps={true}
       dataSource={this.state.dataSource}
       alwaysBounceVertical={false}
       renderRow={this._renderItem}
