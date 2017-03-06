@@ -39,7 +39,7 @@ class BorderedList extends Component {
   }
 
   _renderFooter = () => {
-    return <View style={styles.footerContainer}>
+    return <View style={[styles.footerContainer, this.props.items.length == 0 && styles.firstItem]}>
       {this.props.renderFooter()}
     </View>
   }
