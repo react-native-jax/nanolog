@@ -4,6 +4,7 @@ import {
   PixelRatio,
   ListView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import colors from '../utils/colors';
 import { KeyboardAwareListView } from 'react-native-keyboard-aware-scroll-view'
@@ -76,9 +77,13 @@ const styles = StyleSheet.create({
     borderLeftWidth: borderWidth,
     borderRightWidth: borderWidth,
     borderBottomWidth: 3 * borderWidth,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
     borderColor: colors.borderColor,
+    ...Platform.select({
+      ios: {
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+      }
+    }),
   },
   itemContainer: {
     paddingHorizontal: 5,
@@ -90,13 +95,17 @@ const styles = StyleSheet.create({
   firstItem: {
     borderColor: colors.borderColor,
     borderTopWidth: borderWidth,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    ...Platform.select({
+      ios: {
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+      }
+    }),
   },
   list: {
     flex: 1,
     backgroundColor: 'transparent',
-    margin: 10,
+    padding: 10,
   },
   separator: {
     backgroundColor: colors.borderColor,
