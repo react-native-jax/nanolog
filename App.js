@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import { StackNavigator } from 'react-navigation';
 import Home from './src/components/Home';
 import NanologShow from './src/components/NanologShow';
@@ -8,4 +7,4 @@ const App = StackNavigator({
   NanologShow: { screen: NanologShow },
 });
 
-Exponent.registerRootComponent(App);
+export default App;

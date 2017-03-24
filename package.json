@@ -1,15 +1,27 @@
 {
   "name": "nanolog",
   "version": "0.0.0",
-  "description": "Hello Exponent!",
-  "author": null,
   "private": true,
-  "main": "main.js",
+  "devDependencies": {
+    "jest-expo": "^0.3.0",
+    "react-native-scripts": "0.0.25",
+    "react-test-renderer": "~15.4.1"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js --watch"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
   "dependencies": {
-    "@exponent/vector-icons": "~4.0.0",
-    "exponent": "^14.0.0",
+    "expo": "^15.1.0",
     "react": "~15.4.0",
-    "react-native": "https://github.com/exponent/react-native/archive/sdk-14.0.0.tar.gz",
+    "react-native": "0.42.3",
     "react-native-keyboard-aware-scroll-view": "^0.2.7",
     "react-navigation": "^1.0.0-beta.6"
   }
