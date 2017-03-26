@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import navHeader from '../utils/navHeader';
 
 class NanologShow extends Component {
   static navigationOptions = {
-    header: ({state}) => navHeader(state.params.item)
+    header: ({ state }) => navHeader(state.params.item),
   };
 
   render() {
-    return <View>
-    </View>
+    return <View />;
   }
 }
 
-NanologShow.propTypes = {
-};
+NanologShow.propTypes = {};
 
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create({});
 
 export default NanologShow;

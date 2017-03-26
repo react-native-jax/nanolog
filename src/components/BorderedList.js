@@ -1,67 +1,72 @@
 import React, { Component } from 'react';
-import {
-  View,
-  PixelRatio,
-  ListView,
-  StyleSheet,
-  Platform,
-} from 'react-native';
+import { View, PixelRatio, ListView, StyleSheet, Platform } from 'react-native';
 import colors from '../utils/colors';
-import { KeyboardAwareListView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareListView } from 'react-native-keyboard-aware-scroll-view';
 
 class BorderedList extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.items)
-    }
+      dataSource: ds.cloneWithRows(this.props.items),
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.items !== this.props.items) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.items)
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.items),
       });
     }
   }
 
   render() {
-    return <KeyboardAwareListView
-      contentContainerStyle={styles.list}
-      enableEmptySections={true}
-      automaticallyAdjustContentInsets={false}
-      dataSource={this.state.dataSource}
-      alwaysBounceVertical={false}
-      renderRow={this._renderItem}
-      renderFooter={this._renderFooter}
-      renderSeparator={this._renderSeparator}
-    />
+    return (
+      <KeyboardAwareListView
+        contentContainerStyle={styles.list}
+        enableEmptySections={true}
+        automaticallyAdjustContentInsets={false}
+        dataSource={this.state.dataSource}
+        alwaysBounceVertical={false}
+        renderRow={this._renderItem}
+        renderFooter={this._renderFooter}
+        renderSeparator={this._renderSeparator}
+      />
+    );
   }
 
   _renderFooter = () => {
-    return <View style={[styles.footerContainer, this.props.items.length == 0 && styles.firstItem]}>
-      {this.props.renderFooter()}
-    </View>
-  }
+    return (
+      <View
+        style={[
+          styles.footerContainer,
+          this.props.items.length == 0 && styles.firstItem,
+        ]}
+      >
+        {this.props.renderFooter()}
+      </View>
+    );
+  };
 
   _renderItem = (row, sectionId, rowId) => {
-    return <View style={[styles.itemContainer, rowId == 0 && styles.firstItem]}>
-      {this.props.renderItem(row, rowId)}
-    </View>
-  }
+    return (
+      <View style={[styles.itemContainer, rowId == 0 && styles.firstItem]}>
+        {this.props.renderItem(row, rowId)}
+      </View>
+    );
+  };
 
   _renderSeparator = (sectionID, rowID) => {
-    return <View
-      key={`${sectionID}-${rowID}`}
-      style={styles.separator} />
-  }
+    return <View key={`${sectionID}-${rowID}`} style={styles.separator} />;
+  };
 }
 
 BorderedList.defaultProps = {
   items: [],
   renderItem: () => {},
-}
+};
 
 BorderedList.propTypes = {
   items: React.PropTypes.array,
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
       ios: {
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-      }
+      },
     }),
   },
   itemContainer: {
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
       ios: {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-      }
+      },
     }),
   },
   list: {

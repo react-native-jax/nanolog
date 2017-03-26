@@ -10,7 +10,7 @@ import {
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-import { createLog, getLogList }  from '../utils/logHelper';
+import { createLog, getLogList } from '../utils/logHelper';
 
 class Home extends Component {
   static navigationOptions = {
@@ -18,8 +18,8 @@ class Home extends Component {
   };
 
   state = {
-    items: []
-  }
+    items: [],
+  };
 
   componentWillMount() {
     this._loadData();
@@ -27,49 +27,57 @@ class Home extends Component {
 
   async _loadData() {
     const items = await getLogList();
-    this.setState({items: items.map(i => i.name)});
+    this.setState({ items: items.map(i => i.name) });
   }
 
   render() {
-    return <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <BorderedList
-        items={this.state.items}
-        renderFooter={this._renderFooter}
-        renderItem={this._renderItem}
-      />
-    </View>
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <BorderedList
+          items={this.state.items}
+          renderFooter={this._renderFooter}
+          renderItem={this._renderItem}
+        />
+      </View>
+    );
   }
 
   _renderFooter = () => {
-    return <TextInput
-      ref={textInput => this._textInput = textInput}
-      style={styles.input}
-      onSubmitEditing={this._onSubmit}
-      underlineColorAndroid="transparent"
-      placeholder="add a nanolog ..." />
-  }
+    return (
+      <TextInput
+        ref={textInput => this._textInput = textInput}
+        style={styles.input}
+        onSubmitEditing={this._onSubmit}
+        underlineColorAndroid="transparent"
+        placeholder="add a nanolog ..."
+      />
+    );
+  };
 
-  _onSubmit = async (event) => {
+  _onSubmit = async event => {
     const { text } = event.nativeEvent;
     await createLog(text);
     this.setState({
-      items: [...this.state.items, text]
+      items: [...this.state.items, text],
     });
     this._textInput.clear();
-  }
+  };
 
-  _renderItem = (item) => {
-    return <TouchableOpacity
-      onPress={() => this._onItemPress(item)}
-      style={styles.itemContainer}>
-      <Text numberOfLines={1} style={styles.item}>{item}</Text>
-    </TouchableOpacity>
-  }
+  _renderItem = item => {
+    return (
+      <TouchableOpacity
+        onPress={() => this._onItemPress(item)}
+        style={styles.itemContainer}
+      >
+        <Text numberOfLines={1} style={styles.item}>{item}</Text>
+      </TouchableOpacity>
+    );
+  };
 
-  _onItemPress = (item) => {
-    this.props.navigation.navigate('NanologShow', {item});
-  }
+  _onItemPress = item => {
+    this.props.navigation.navigate('NanologShow', { item });
+  };
 }
 
 Home.propTypes = {
@@ -94,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     padding: 10,
-  }
+  },
 });
 
 export default Home;

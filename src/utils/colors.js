@@ -1,5 +1,5 @@
 export default {
   defaultBg: '#fff9d6',
   borderColor: '#ded79c',
-  navBarBg: '#426882'
+  navBarBg: '#426882',
 };
