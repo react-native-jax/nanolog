@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert, Button } from 'react-native';
 import navHeader from '../utils/navHeader';
+import { deleteItem } from '../services/ItemsService';
 
 class NanologShow extends Component {
   static navigationOptions = {
@@ -8,8 +9,27 @@ class NanologShow extends Component {
   };
 
   render() {
-    return <View />;
+    return (
+      <View>
+        <Button onPress={this._delete} title="Delete" />
+      </View>
+    );
   }
+
+  _delete = () => {
+    Alert.alert('Confirmation', `Are you sure you want to delete this item?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          const { item } = this.props.navigation.state.params;
+          deleteItem(item);
+          this.props.navigation.goBack();
+        },
+      },
+    ]);
+  };
 }
 
 NanologShow.propTypes = {};

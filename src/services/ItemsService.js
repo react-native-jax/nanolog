@@ -12,3 +12,9 @@ export async function createItem(name) {
   let newList = [...list, { name }];
   await AsyncStorage.setItem(LIST_KEY, JSON.stringify(newList));
 }
+
+export async function deleteItem(name) {
+  const list = await getItems();
+  let newList = list.filter(i => i.name !== name);
+  await AsyncStorage.setItem(LIST_KEY, JSON.stringify(newList));
+}
