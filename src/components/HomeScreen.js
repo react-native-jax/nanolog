@@ -12,7 +12,7 @@ import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
 import { createItem, getItems } from '../services/ItemsService';
 
-class Home extends Component {
+class HomeScreen extends Component {
   static navigationOptions = {
     header: navHeader('your nanologs'),
   };
@@ -76,11 +76,11 @@ class Home extends Component {
   };
 
   _onItemPress = item => {
-    this.props.navigation.navigate('NanologShow', { item });
+    this.props.navigation.navigate('ItemScreen', { item });
   };
 }
 
-Home.propTypes = {
+HomeScreen.propTypes = {
   navigation: React.PropTypes.object,
 };
 
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeScreen;

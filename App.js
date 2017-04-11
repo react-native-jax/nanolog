@@ -1,10 +1,10 @@
 import { StackNavigator } from 'react-navigation';
-import Home from './src/components/Home';
-import NanologShow from './src/components/NanologShow';
+import HomeScreen from './src/components/HomeScreen';
+import ItemScreen from './src/components/ItemScreen';
 
 const App = StackNavigator({
-  Home: { screen: Home },
-  NanologShow: { screen: NanologShow },
+  HomeScreen: { screen: HomeScreen },
+  ItemScreen: { screen: ItemScreen },
 });
 
 export default App;

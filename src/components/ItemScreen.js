@@ -3,7 +3,7 @@ import { View, StyleSheet, Alert, Button } from 'react-native';
 import navHeader from '../utils/navHeader';
 import { deleteItem } from '../services/ItemsService';
 
-class NanologShow extends Component {
+class ItemScreen extends Component {
   static navigationOptions = {
     header: ({ state }) => navHeader(state.params.item),
   };
@@ -32,8 +32,8 @@ class NanologShow extends Component {
   };
 }
 
-NanologShow.propTypes = {};
+ItemScreen.propTypes = {};
 
 const styles = StyleSheet.create({});
 
-export default NanologShow;
+export default ItemScreen;
