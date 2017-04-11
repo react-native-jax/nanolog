@@ -10,7 +10,7 @@ import {
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-import { createLog, getLogList } from '../utils/logHelper';
+import { createItem, getItems } from '../services/ItemsService';
 
 class Home extends Component {
   static navigationOptions = {
@@ -22,11 +22,11 @@ class Home extends Component {
   };
 
   componentWillMount() {
-    this._loadData();
+    this._loadItems();
   }
 
-  async _loadData() {
-    const items = await getLogList();
+  async _loadItems() {
+    const items = await getItems();
     this.setState({ items: items.map(i => i.name) });
   }
 
@@ -57,7 +57,7 @@ class Home extends Component {
 
   _onSubmit = async event => {
     const { text } = event.nativeEvent;
-    await createLog(text);
+    await createItem(text);
     this.setState({
       items: [...this.state.items, text],
     });
