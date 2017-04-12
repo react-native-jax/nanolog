@@ -80,10 +80,6 @@ class HomeScreen extends Component {
   };
 }
 
-HomeScreen.propTypes = {
-  navigation: React.PropTypes.object,
-};
-
 const rowHeight = 50;
 const styles = StyleSheet.create({
   container: {
