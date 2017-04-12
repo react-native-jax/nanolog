@@ -30,6 +30,7 @@
         ],
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
-        "react-native/no-unused-styles": 2
+        "react-native/no-unused-styles": 2,
+        "react/prop-types": [2, {"skipUndeclared": true}]
     }
 }
