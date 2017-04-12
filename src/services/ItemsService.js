@@ -18,3 +18,9 @@ export async function deleteItem(name) {
   let newList = list.filter(i => i.name !== name);
   await AsyncStorage.setItem(LIST_KEY, JSON.stringify(newList));
 }
+
+export default {
+  getItems,
+  createItem,
+  deleteItem,
+};
