@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Alert, Button } from 'react-native';
+import { View, Alert, Button } from 'react-native';
 import navHeader from '../utils/navHeader';
 import { deleteItem } from '../services/ItemsService';
 
@@ -31,9 +31,5 @@ class ItemScreen extends Component {
     ]);
   };
 }
-
-ItemScreen.propTypes = {};
-
-const styles = StyleSheet.create({});
 
 export default ItemScreen;
