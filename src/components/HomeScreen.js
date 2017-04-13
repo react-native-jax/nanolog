@@ -19,14 +19,6 @@ class HomeScreen extends Component {
     header: navHeader('your nanologs'),
   };
 
-  componentWillMount() {
-    this._loadItems();
-  }
-
-  async _loadItems() {
-    this.props.actions.loadItems();
-  }
-
   render() {
     return (
       <View style={styles.container}>

@@ -6,12 +6,20 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'remote-redux-devtools';
+import { persistStore, autoRehydrate } from 'redux-persist';
+import { AsyncStorage } from 'react-native';
 
 import reducers from './src/reducers';
 
 const actualCompose = __DEV__ ? composeWithDevTools : compose;
 
-const store = createStore(reducers, actualCompose(applyMiddleware(thunk)));
+const store = createStore(
+  reducers,
+  actualCompose(applyMiddleware(thunk)),
+  autoRehydrate()
+);
+
+persistStore(store, { storage: AsyncStorage });
 
 const App = StackNavigator({
   HomeScreen: { screen: HomeScreen },

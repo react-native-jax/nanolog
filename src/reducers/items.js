@@ -7,28 +7,12 @@ const ITEMS_LOADED = 'nanolog/items/ITEMS_LOADED';
 const NEW_ITEM = 'nanolog/items/NEW_ITEM';
 const DELETE_ITEM = 'nanolog/items/DELETE_ITEM';
 
-export function loadItems() {
-  return dispatch => {
-    ItemsService.getItems().then(items => {
-      dispatch({ type: ITEMS_LOADED, items });
-    });
-  };
-}
-
 export function createItem(name) {
-  return dispatch => {
-    ItemsService.createItem(name).then(() => {
-      dispatch({ type: NEW_ITEM, name });
-    });
-  };
+  return { type: NEW_ITEM, name };
 }
 
 export function deleteItem(name) {
-  return dispatch => {
-    ItemsService.deleteItem(name).then(() => {
-      dispatch({ type: DELETE_ITEM, name });
-    });
-  };
+  return { type: DELETE_ITEM, name };
 }
 
 export default function reducer(state = initialState, action) {
