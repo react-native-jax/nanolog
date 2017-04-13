@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Alert, Button } from 'react-native';
 import navHeader from '../utils/navHeader';
-import { deleteItem } from '../services/ItemsService';
+import { connect } from 'react-redux';
+import * as ItemsActions from '../reducers/items';
+import { bindActionCreators } from 'redux';
 
 class ItemScreen extends Component {
   static navigationOptions = {
@@ -22,14 +24,22 @@ class ItemScreen extends Component {
       {
         text: 'Delete',
         style: 'destructive',
-        onPress: () => {
-          const { item } = this.props.navigation.state.params;
-          deleteItem(item);
-          this.props.navigation.goBack();
-        },
+        onPress: this._onConfirmation,
       },
     ]);
   };
+
+  _onConfirmation = () => {
+    const { item } = this.props.navigation.state.params;
+    this.props.actions.deleteItem(item);
+    this.props.navigation.goBack();
+  };
 }
 
-export default ItemScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(ItemsActions, dispatch),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ItemScreen);

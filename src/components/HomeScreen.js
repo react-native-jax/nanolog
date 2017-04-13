@@ -10,15 +10,13 @@ import {
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-import { createItem, getItems } from '../services/ItemsService';
+import { connect } from 'react-redux';
+import * as ItemsActions from '../reducers/items';
+import { bindActionCreators } from 'redux';
 
 class HomeScreen extends Component {
   static navigationOptions = {
     header: navHeader('your nanologs'),
-  };
-
-  state = {
-    items: [],
   };
 
   componentWillMount() {
@@ -26,8 +24,7 @@ class HomeScreen extends Component {
   }
 
   async _loadItems() {
-    const items = await getItems();
-    this.setState({ items: items.map(i => i.name) });
+    this.props.actions.loadItems();
   }
 
   render() {
@@ -35,7 +32,7 @@ class HomeScreen extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <BorderedList
-          items={this.state.items}
+          items={this.props.items}
           renderFooter={this._renderFooter}
           renderItem={this._renderItem}
         />
@@ -57,10 +54,7 @@ class HomeScreen extends Component {
 
   _onSubmit = async event => {
     const { text } = event.nativeEvent;
-    await createItem(text);
-    this.setState({
-      items: [...this.state.items, text],
-    });
+    this.props.actions.createItem(text);
     this._textInput.clear();
   };
 
@@ -101,4 +95,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+const mapStateToProps = state => {
+  return {
+    items: state.items.all.map(i => i.name),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(ItemsActions, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
