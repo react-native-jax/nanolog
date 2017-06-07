@@ -114,6 +114,14 @@ export default compose(
       createItem: name =>
         mutate({
           variables: { name },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createItem: {
+              __typename: 'Item',
+              id: Math.random(),
+              name,
+            },
+          },
           update: (store, { data: { createItem } }) => {
             const data = store.readQuery({ query: ItemsQuery });
             data.items.push(createItem);
