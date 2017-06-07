@@ -8,6 +8,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
+import { Constants } from 'expo';
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
 
 const ItemsQuery = gql`
   query {
-    items: allItems {
+    items: allItems(filter: {deviceId: "${Constants.deviceId}"}) {
       id
       name
     }
@@ -100,7 +101,7 @@ const ItemsQuery = gql`
 
 const CreateItemMutation = gql`
   mutation createItem($name: String!) {
-    createItem(name: $name) {
+    createItem(name: $name, deviceId: "${Constants.deviceId}") {
       id
       name
     }
