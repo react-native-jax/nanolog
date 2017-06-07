@@ -11,7 +11,7 @@ import {
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-import { graphql, gql } from 'react-apollo';
+import { graphql, gql, compose } from 'react-apollo';
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -48,7 +48,7 @@ class HomeScreen extends Component {
 
   _onSubmit = async event => {
     const { text } = event.nativeEvent;
-    this.props.actions.createItem(text);
+    this.props.createItem(text);
     this._textInput.clear();
   };
 
@@ -98,4 +98,28 @@ const ItemsQuery = gql`
   }
 `;
 
-export default graphql(ItemsQuery)(HomeScreen);
+const CreateItemMutation = gql`
+  mutation createItem($name: String!) {
+    createItem(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export default compose(
+  graphql(ItemsQuery),
+  graphql(CreateItemMutation, {
+    props: ({ mutate }) => ({
+      createItem: name =>
+        mutate({
+          variables: { name },
+          update: (store, { data: { createItem } }) => {
+            const data = store.readQuery({ query: ItemsQuery });
+            data.items.push(createItem);
+            store.writeQuery({ query: ItemsQuery, data });
+          },
+        }),
+    }),
+  })
+)(HomeScreen);
