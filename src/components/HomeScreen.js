@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ItemsQuery = gql`
+export const ItemsQuery = gql`
   query {
     items: allItems(filter: {deviceId: "${Constants.deviceId}"}) {
       id
