@@ -3,7 +3,7 @@ import HomeScreen from './src/components/HomeScreen';
 import ItemScreen from './src/components/ItemScreen';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import { persistStore, autoRehydrate } from 'redux-persist';
@@ -14,9 +14,14 @@ import reducers from './src/reducers';
 const actualCompose = __DEV__ ? composeWithDevTools : compose;
 
 const store = createStore(
-  reducers,
-  actualCompose(applyMiddleware(thunk)),
-  autoRehydrate()
+  combineReducers({
+    ...reducers,
+  }),
+  {},
+  actualCompose(
+    applyMiddleware(thunk),
+    autoRehydrate()
+  )
 );
 
 persistStore(store, { storage: AsyncStorage });
