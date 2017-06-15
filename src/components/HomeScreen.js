@@ -6,13 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
+import { Constants } from 'expo';
 import colors from '../utils/colors';
 import navHeader from '../utils/navHeader';
 import BorderedList from './BorderedList';
-import { connect } from 'react-redux';
-import * as ItemsActions from '../reducers/items';
-import { bindActionCreators } from 'redux';
+import { graphql, gql, compose } from 'react-apollo';
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -20,14 +20,17 @@ class HomeScreen extends Component {
   };
 
   render() {
+    const { loading, items } = this.props.data;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <BorderedList
-          items={this.props.items}
-          renderFooter={this._renderFooter}
-          renderItem={this._renderItem}
-        />
+        {loading
+          ? <ActivityIndicator />
+          : <BorderedList
+              items={items}
+              renderFooter={this._renderFooter}
+              renderItem={this._renderItem}
+            />}
       </View>
     );
   }
@@ -35,7 +38,7 @@ class HomeScreen extends Component {
   _renderFooter = () => {
     return (
       <TextInput
-        ref={textInput => this._textInput = textInput}
+        ref={textInput => (this._textInput = textInput)}
         style={styles.input}
         onSubmitEditing={this._onSubmit}
         underlineColorAndroid="transparent"
@@ -46,7 +49,7 @@ class HomeScreen extends Component {
 
   _onSubmit = async event => {
     const { text } = event.nativeEvent;
-    this.props.actions.createItem(text);
+    this.props.createItem(text);
     this._textInput.clear();
   };
 
@@ -56,7 +59,7 @@ class HomeScreen extends Component {
         onPress={() => this._onItemPress(item)}
         style={styles.itemContainer}
       >
-        <Text numberOfLines={1} style={styles.item}>{item}</Text>
+        <Text numberOfLines={1} style={styles.item}>{item.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -87,16 +90,45 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    items: state.items.all.map(i => i.name),
-  };
-};
+export const ItemsQuery = gql`
+  query {
+    items: allItems(filter: {deviceId: "${Constants.deviceId}"}) {
+      id
+      name
+    }
+  }
+`;
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(ItemsActions, dispatch),
-  };
-};
+const CreateItemMutation = gql`
+  mutation createItem($name: String!) {
+    createItem(name: $name, deviceId: "${Constants.deviceId}") {
+      id
+      name
+    }
+  }
+`;
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default compose(
+  graphql(ItemsQuery),
+  graphql(CreateItemMutation, {
+    props: ({ mutate }) => ({
+      createItem: name =>
+        mutate({
+          variables: { name },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createItem: {
+              __typename: 'Item',
+              id: Math.random(),
+              name,
+            },
+          },
+          update: (store, { data: { createItem } }) => {
+            const data = store.readQuery({ query: ItemsQuery });
+            data.items.push(createItem);
+            store.writeQuery({ query: ItemsQuery, data });
+          },
+        }),
+    }),
+  })
+)(HomeScreen);

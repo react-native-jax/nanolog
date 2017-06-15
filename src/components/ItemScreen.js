@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { View, Alert, Button } from 'react-native';
 import navHeader from '../utils/navHeader';
-import { connect } from 'react-redux';
-import * as ItemsActions from '../reducers/items';
-import { bindActionCreators } from 'redux';
+import { graphql, compose, gql } from 'react-apollo';
+import { ItemsQuery } from './HomeScreen';
 
 class ItemScreen extends Component {
   static navigationOptions = {
-    header: ({ state }) => navHeader(state.params.item),
+    header: ({ state }) => navHeader(state.params.item.name),
   };
 
   render() {
@@ -31,15 +30,41 @@ class ItemScreen extends Component {
 
   _onConfirmation = () => {
     const { item } = this.props.navigation.state.params;
-    this.props.actions.deleteItem(item);
+    this.props.deleteItem(item.id);
     this.props.navigation.goBack();
   };
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(ItemsActions, dispatch),
-  };
-};
+const DeleteItemMutation = gql`
+  mutation deleteItem($id: ID!) {
+    deleteItem(id: $id) {
+      id
+    }
+  }
+`;
 
-export default connect(null, mapDispatchToProps)(ItemScreen);
+export default compose(
+  graphql(DeleteItemMutation, {
+    props: ({ mutate }) => ({
+      deleteItem: id =>
+        mutate({
+          variables: { id },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            deleteItem: {
+              __typename: 'Item',
+              id,
+            },
+          },
+          update: store => {
+            const data = store.readQuery({ query: ItemsQuery });
+            const index = data.items.findIndex(item => item.id === id);
+            if (index > -1) {
+              data.items.splice(index, 1);
+            }
+            store.writeQuery({ query: ItemsQuery, data });
+          },
+        }),
+    }),
+  })
+)(ItemScreen);
